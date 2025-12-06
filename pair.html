@@ -1,353 +1,62 @@
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-  <meta charset="UTF-8" />  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
-  <title>MUZAN MD - WhatsApp Linker</title>  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>  
-  <style>  
-    :root {  
-      --primary-color: #00ffcc;  
-      --secondary-color: #ffffff;  
-      --accent-color: #1a1a1a;  
-      --text-color: #e0e0e0;  
-      --background-color: #0f0f0f;  
-      --hover-color: #333333;  
-      --border-color: rgba(0, 0, 0, 0.2);  
-      --glow-color: #00ffcc; /* For cyberpunk neon glow effects */  
-    }  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MUZAN MD - WhatsApp Linker</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <style>
+    /* Your existing CSS goes here */
+  </style>
+</head>
+<body>
+  <!-- Background video -->
+  <video id="background-video" autoplay loop muted playsinline>
+    <source src="anime-loop.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 
-    * {  
-      margin: 0;  
-      padding: 0;  
-      box-sizing: border-box;  
-    }  
-
-    body {  
-      font-family: 'Inter', sans-serif;  
-      background: var(--background-color);  
-      color: var(--text-color);  
-      min-height: 100vh;  
-      display: flex;  
-      justify-content: center;  
-      align-items: center;  
-      padding: 15px;  
-      animation: fadeIn 1s ease-in-out;  
-      overflow: hidden;  
-    }  
-
-    @keyframes fadeIn {  
-      from { opacity: 0; transform: translateY(20px); }  
-      to { opacity: 1; transform: translateY(0); }  
-    }  
-
-    #background-video {  
-      position: fixed;  
-      top: 0;  
-      left: 0;  
-      min-width: 100%;  
-      min-height: 100%;  
-      z-index: -1;  
-      object-fit: cover;  
-    }  
-
-    .container {  
-      width: 100%;  
-      max-width: 500px;  
-      background: rgba(20, 20, 20, 0.8);  
-      border-radius: 16px;  
-      padding: 25px;  
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);  
-      border: 1px solid var(--border-color);  
-      animation: slideUp 0.8s ease-out, pulseGlow 2s infinite alternate;  
-    }  
-
-    @keyframes slideUp {  
-      from { transform: translateY(50px); opacity: 0; }  
-      to { transform: translateY(0); opacity: 1; }  
-    }  
-
-    @keyframes pulseGlow {  
-      0% { box-shadow: 0 0 10px var(--glow-color); }  
-      100% { box-shadow: 0 0 30px var(--glow-color); }  
-    }  
-
-    .header {  
-      text-align: center;  
-      margin-bottom: 25px;  
-    }  
-
-    .logo {  
-      width: 70px;  
-      height: 70px;  
-      margin: 0 auto 16px;  
-      background: var(--primary-color);  
-      border-radius: 50%;  
-      display: flex;  
-      align-items: center;  
-      justify-content: center;  
-      font-size: 28px;  
-      color: var(--secondary-color);  
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);  
-      animation: rotateGlow 5s infinite linear;  
-    }  
-
-    @keyframes rotateGlow {  
-      0% { transform: rotate(0deg); filter: drop-shadow(0 0 5px var(--glow-color)); }  
-      100% { transform: rotate(360deg); filter: drop-shadow(0 0 20px var(--glow-color)); }  
-    }  
-
-    .title {  
-      font-size: 32px;  
-      font-weight: 700;  
-      color: var(--primary-color);  
-      margin-bottom: 8px;  
-      text-transform: uppercase;  
-      letter-spacing: 1px;  
-      animation: textGlow 1.5s infinite alternate;  
-    }  
-
-    @keyframes textGlow {  
-      0% { text-shadow: 0 0 5px var(--glow-color); }  
-      100% { text-shadow: 0 0 15px var(--glow-color); }  
-    }  
-
-    .subtitle {  
-      font-size: 14px;  
-      color: rgba(255, 255, 255, 0.7);  
-      margin-bottom: 20px;  
-    }  
-
-    .input-group {  
-      margin-bottom: 20px;  
-    }  
-
-    .input-label {  
-      display: block;  
-      margin-bottom: 8px;  
-      font-weight: 500;  
-      font-size: 14px;  
-      color: var(--secondary-color);  
-    }  
-
-    .input-field {  
-      width: 100%;  
-      padding: 12px;  
-      border: 1.5px solid var(--border-color);  
-      border-radius: 12px;  
-      background: var(--background-color);  
-      color: var(--text-color);  
-      font-size: 15px;  
-      transition: all 0.3s ease;  
-    }  
-
-    .input-field:focus {  
-      outline: none;  
-      border-color: var(--primary-color);  
-      box-shadow: 0 0 10px var(--glow-color);  
-    }  
-
-    .generate-btn {  
-      width: 100%;  
-      padding: 12px;  
-      background: var(--primary-color);  
-      border: none;  
-      border-radius: 12px;  
-      color: var(--secondary-color);  
-      font-size: 15px;  
-      font-weight: 600;  
-      cursor: pointer;  
-      transition: all 0.3s ease;  
-      margin-bottom: 16px;  
-    }  
-
-    .generate-btn:hover {  
-      transform: translateY(-2px) scale(1.05);  
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), 0 0 20px var(--glow-color);  
-    }  
-
-    .footer {  
-      text-align: center;  
-      margin-top: 20px;  
-      font-size: 12px;  
-      color: rgba(255, 255, 255, 0.5);  
-      animation: fadeInBottom 1s ease-out;  
-    }  
-
-    @keyframes fadeInBottom {  
-      from { opacity: 0; transform: translateY(20px); }  
-      to { opacity: 1; transform: translateY(0); }  
-    }  
-
-    .copy-btn {  
-      width: 100%;  
-      padding: 12px;  
-      background: var(--hover-color);  
-      border: 1.5px solid var(--border-color);  
-      border-radius: 12px;  
-      font-size: 15px;  
-      font-weight: 600;  
-      cursor: pointer;  
-      display: flex;  
-      align-items: center;  
-      justify-content: center;  
-      gap: 8px;  
-    }  
-
-    .copy-btn:hover {  
-      background: var(--background-color);  
-      border-color: var(--primary-color);  
-      transform: rotate(5deg) scale(1.1);  
-    }  
-
-    .qr-display {  
-      background: var(--hover-color);  
-      padding: 30px;  
-      border-radius: 12px;  
-      text-align: center;  
-      margin-bottom: 16px;  
-      border: 1.5px solid var(--border-color);  
-    }  
-
-    .qr-image {  
-      max-width: 280px;  
-      max-height: 280px;  
-      margin: 0 auto 20px;  
-      border-radius: 12px;  
-    }  
-
-  </style>  
-</head>  
-<body>  
-  <video id="background-video" autoplay loop muted playsinline>  
-    <source src="anime-loop.mp4" type="video/mp4">  
-    Your browser does not support the video tag.  
-  </video>  
-
-  <div class="container">  
-    <div class="header">  
-      <div class="logo"><i class="fas fa-robot"></i></div>  
-      <h1 class="title">MUZAN MD</h1>  
-      <p class="subtitle">Link your WhatsApp device with cyberpunk vibes</p>  
+  <!-- Main container -->
+  <div class="container">
+    <!-- Header Section -->
+    <div class="header">
+      <div class="logo"><i class="fas fa-robot"></i></div>
+      <h1 class="title">MUZAN MD</h1>
+      <p class="subtitle">Link your WhatsApp device with cyberpunk vibes</p>
     </div>
-<!-- Audio elements for music player (Playing music on load) -->
-  <audio id="phonkPlayer" preload="auto" loop>
-    <source src="https://www.free-stock-music.com/music/fsm-team/moonlit-phonk-loop.mp3" type="audio/mp3">
-    Your browser does not support the audio element.
-  </audio>
+
+    <!-- Mobile Number Input -->
+    <div class="input-group" id="inputGroup">
+      <label for="mobileNumber" class="input-label">Enter your WhatsApp Number:</label>
+      <input type="text" id="mobileNumber" class="input-field" placeholder="e.g. +1234567890" />
+    </div>
+
+    <!-- Button to Generate Pair Code -->
+    <button id="submit" class="generate-btn">
+      <i class="fas fa-key"></i> Generate Pair Code
+    </button>
+
+    <!-- Display Code and Copy Button -->
+    <div id="codeDisplay" class="qr-display">
+      <p>Your pair code will appear here</p>
+      <button id="copy" class="copy-btn" onclick="copyCode()">
+        <i class="fas fa-copy"></i> Copy Code
+      </button>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loading" style="display:none;">
+      <i class="fas fa-spinner fa-spin"></i> Generating...
+    </div>
+  </div>
 
   <script>
-    let currentMode = 'pair';
-
-    // Phonk songs playlist (royalty-free phonk tracks for 2025 vibes)
-    const phonkSongs = [
-      'https://www.free-stock-music.com/music/fsm-team/moonlit-phonk-loop.mp3', // Moonlit by FSM Team
-      'https://www.free-stock-music.com/music/alex-productions/neon-gaming-cyberpunk-retro-wave.mp3', // Neon Gaming (phonk-style)
-      'https://www.free-stock-music.com/music/fsm-team/drift-phonk.mp3', // Drift Phonk
-      'https://www.free-stock-music.com/music/alex-productions/phonk-aggressive.mp3' // Aggressive Phonk
-    ];
-    let currentSongIndex = 0;
-    const phonkPlayer = document.getElementById('phonkPlayer');
-
-    function playNextSong() {
-      currentSongIndex = (currentSongIndex + 1) % phonkSongs.length;
-      phonkPlayer.src = phonkSongs[currentSongIndex];
-      phonkPlayer.play().catch(err => console.log('Audio play failed:', err));
-    }
-
-    phonkPlayer.addEventListener('ended', playNextSong);
-
-    // Start with first song on load
-    phonkPlayer.src = phonkSongs[0];
-    phonkPlayer.play().catch(err => console.log('Initial audio play failed:', err));
-
-    // Mind-blowing particles (JS-generated)
-    function createParticles() {
-      const particlesContainer = document.getElementById('particles');
-      for (let i = 0; i < 50; i++) { // Create 50 particles
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        particle.style.width = `${Math.random() * 5 + 2}px`;
-        particle.style.height = particle.style.width;
-        particle.style.left = `${Math.random() * 100}vw`;
-        particle.style.animationDuration = `${Math.random() * 5 + 5}s`;
-        particle.style.animationDelay = `${Math.random() * 5}s`;
-        particlesContainer.appendChild(particle);
-      }
-    }
-    createParticles();
-
-    // Toggle functionality
-    document.querySelectorAll('.toggle-option').forEach(option => {
-      option.addEventListener('click', function () {
-        const mode = this.dataset.mode;
-        if (mode === currentMode) return;
-
-        // Update active state
-        document.querySelectorAll('.toggle-option').forEach(opt => opt.classList.remove('active'));
-        this.classList.add('active');
-
-        // Update mode
-        currentMode = mode;
-
-        // Update button and input visibility
-        const submitBtn = document.getElementById('submit');
-        const inputGroup = document.getElementById('inputGroup');
-        
-        if (mode === 'pair') {
-          submitBtn.innerHTML = '<i class="fas fa-key"></i> Generate Pair Code';
-          submitBtn.classList.remove('hidden');
-          inputGroup.classList.remove('hidden');
-        } else {
-          submitBtn.classList.add('hidden');
-          inputGroup.classList.add('hidden');
-          // Auto-generate QR code when QR mode is selected
-          generateQRCode();
-        }
-
-        // Clear displays
-        document.getElementById('codeDisplay').innerHTML = 'Your pair code will appear here';
-        document.getElementById('qrDisplay').style.display = 'none';
-        document.getElementById('codeDisplay').style.display = 'flex';
-      });
-    });
-
-    async function generateQRCode() {
-      const codeDisplay = document.getElementById("codeDisplay");
-      const qrDisplay = document.getElementById("qrDisplay");
-      const loadingSpinner = document.getElementById("loading");
-
-      loadingSpinner.style.display = "block";
-      codeDisplay.innerHTML = '';
-      qrDisplay.style.display = 'none';
-
-      try {
-        const response = await axios('/qr');
-          
-        if (response.data.qr) {
-          document.getElementById('qrImage').src = response.data.qr;
-          document.getElementById('qrInstructions').innerHTML = response.data.instructions.join('<br>');
-          qrDisplay.style.display = 'block';
-          codeDisplay.style.display = 'none';
-        } else {
-          codeDisplay.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Failed to generate QR code</div>';
-          codeDisplay.style.display = 'flex';
-        }
-      } catch (error) {
-        console.error("Error generating QR code:", error);
-        codeDisplay.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Error generating QR code. Please try again.</div>';
-        codeDisplay.style.display = 'flex';
-      } finally {
-        loadingSpinner.style.display = "none";
-      }
-    }
-
+    // Your existing JavaScript functions for handling code generation and copy functionality
     document.getElementById("submit").addEventListener("click", async (e) => {
       e.preventDefault();
-        
+      
       const mobileNumberInput = document.getElementById("mobileNumber");
       const codeDisplay = document.getElementById("codeDisplay");
-      const qrDisplay = document.getElementById("qrDisplay");
       const loadingSpinner = document.getElementById("loading");
 
       const mobileNumber = mobileNumberInput.value.trim();
@@ -356,16 +65,13 @@
         return;
       }
 
-      // Play the current phonk song when user clicks generate  
-      phonkPlayer.play().catch(err => console.log('Audio play failed:', err));
-
+      // Show loading spinner and hide code display initially
       loadingSpinner.style.display = "block";
       codeDisplay.innerHTML = '';
-      qrDisplay.style.display = 'none';
-
+      
       try {
         const response = await axios(`/pair?number=${mobileNumber.replace(/[^0-9]/g, "")}`);
-          
+        
         const code = response.data.code || "Service Unavailable";
         if (code === "Service Unavailable") {
           codeDisplay.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Service Unavailable</div>';
@@ -382,6 +88,7 @@
       }
     });
 
+    // Function to copy code to clipboard
     function copyCode() {
       const codeDisplay = document.getElementById("codeDisplay").innerText;
       const code = codeDisplay.replace('CODE: ', '');
@@ -393,7 +100,7 @@
           copyBtn.innerHTML = originalText;
         }, 2000);
       }).catch(err => {
-                console.error("Failed to copy text: ", err);
+        console.error("Failed to copy text: ", err);
       });
     }
   </script>
